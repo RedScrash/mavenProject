@@ -1,0 +1,7 @@
+<suite name = "mavenProject">
+	<test name ="mavenProject">
+		<classes>
+			<class name="mavenProject.testng" />
+		</classes>
+	</test>
+</suite>

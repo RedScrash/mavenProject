@@ -1,0 +1,259 @@
+package mavenProject;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+import com.relevantcodes.extentreports.LogStatus;
+
+import interfacePackage.IMapObject;
+import io.github.bonigarcia.wdm.WebDriverManager;
+import mavenProject.EnumClass.*;
+
+public class ActionObject {
+	IMapObject mapObject;
+	static WebDriver driver;
+	public Reports reports;
+	private WebDriverWait wait = null;
+	
+	String strDriverPath = "./src/test/resources/driver/IEDriverServer.exe";
+	/**
+	 * 
+	 */
+	public ActionObject() {
+		reports = new Reports();
+	}
+	public void StartDriver(Browser browser) {
+		switch(browser) {
+		case edge:
+			//System.setProperty("webdriver.ie.driver", strDriverPath);
+			//driver = new InternetExplorerDriver();
+			WebDriverManager.edgedriver().setup();
+			driver = new EdgeDriver();
+			break;
+		case firefox:
+			WebDriverManager.firefoxdriver().setup();
+			driver = new FirefoxDriver();
+			break;
+		case chrome:
+			WebDriverManager.chromedriver().setup();
+			driver = new ChromeDriver();
+			break;
+		default:
+			WebDriverManager.iedriver().setup();
+			driver = new InternetExplorerDriver();
+			break;
+		}
+		wait = new WebDriverWait(driver, 30);
+	}
+	/**
+	 * 
+	 * @param strURL
+	 */
+	public void GotoURL(String strURL) {
+		driver.get(strURL);
+		driver.manage().window().maximize();
+	}
+	/**
+	 * 
+	 * @param identy
+	 * @param strProperty
+	 * @return
+	 */
+	private WebElement _findElement(Identifier identy,String strProperty) {
+		WebElement element=null;
+		try {
+			switch(identy) {
+			case id:
+				element = driver.findElement(By.id(strProperty));
+				break;
+			case xpath:
+				element = driver.findElement(By.xpath(strProperty));
+				break;
+			case name:
+				element = driver.findElement(By.name(strProperty));
+				break;
+			default:
+				element = driver.findElement(By.className(strProperty));
+				break;
+			}
+		}catch(Exception e) {
+			System.out.println("Error en la función findElement: ".concat(e.getMessage()));
+			reports.SaveStep("Error en la función findElement: ".concat(e.getMessage()), LogStatus.FATAL);
+		}
+		return element;		
+	}
+	/**
+	 * 
+	 * @param identy
+	 * @param strProperty
+	 * @return
+	 */
+	public boolean WaitElement(Identifier identy,String strProperty) {
+		boolean bFind = false;
+		try {
+			switch(identy) {
+			case id:
+				wait.until(ExpectedConditions.presenceOfElementLocated(By.id(strProperty)));
+				bFind =true;
+				break;
+			case xpath:
+				wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(strProperty)));
+				bFind =true;
+				break;
+			case name:
+				wait.until(ExpectedConditions.presenceOfElementLocated(By.name(strProperty)));
+				bFind =true;
+				break;
+			default:
+				wait.until(ExpectedConditions.presenceOfElementLocated(By.className(strProperty)));
+				bFind =true;
+				break;
+			}
+		}catch(Exception e) {
+			System.out.println("Elemento no encontrado: ".concat(strProperty));
+			reports.SaveStep("Elemento no encontrado: ".concat(strProperty), LogStatus.FATAL);
+		}
+		return bFind;		
+	}
+	public boolean WaitElement(String strObjectName) {
+		boolean bFind = false;
+		ObjectProperties objectProperties = null;
+		
+		objectProperties = _getObjectProperties(strObjectName);
+		
+		if(objectProperties==null)
+			return bFind;
+		
+		try {
+			switch(objectProperties.getIdentifier()) {
+			case id:
+				wait.until(ExpectedConditions.presenceOfElementLocated(By.id(objectProperties.getProperty())));
+				bFind =true;
+				break;
+			case xpath:
+				wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath(objectProperties.getProperty())));
+				bFind =true;
+				break;
+			case name:
+				wait.until(ExpectedConditions.presenceOfElementLocated(By.name(objectProperties.getProperty())));
+				bFind =true;
+				break;
+			default:
+				wait.until(ExpectedConditions.presenceOfElementLocated(By.className(objectProperties.getProperty())));
+				bFind =true;
+				break;
+			}
+		}catch(Exception e) {
+			System.out.println("Elemento no encontrado: ".concat(objectProperties.getProperty()));
+			reports.SaveStep("Elemento no encontrado: ".concat(objectProperties.getProperty()), LogStatus.FATAL);
+		}
+		return bFind;		
+	}
+	/**
+	 * 
+	 * @param identy
+	 * @param strProperty
+	 * @param strParameter
+	 * @param action
+	 * @return
+	 */
+	public boolean ExecuteAction(Identifier identy,String strProperty,String strParameter,ActionType action) {
+		boolean bResult = false;
+		WebElement element;
+		element = WaitElement(identy,strProperty) ? _findElement(identy,strProperty): null;
+		
+		if(element != null) {
+			switch(action) {
+			case Click:
+				element.click();
+				bResult = true;
+				break;
+			case SetText:
+				element.sendKeys(strParameter);
+				bResult = true;
+				break;
+			default:
+				element.click();
+				bResult = true;
+				break;
+			}
+		}
+		return bResult;
+	}
+	public boolean ExecuteAction(String strObjectName,String strParameter,ActionType action) {
+		boolean bResult = false;
+		ObjectProperties objectProperties = null;
+		WebElement element;
+		
+		objectProperties = _getObjectProperties(strObjectName);
+		
+		if(objectProperties==null)
+			return bResult;
+			
+		element = WaitElement(objectProperties.getIdentifier(),objectProperties.getProperty()) ? _findElement(objectProperties.getIdentifier(),objectProperties.getProperty()): null;
+		
+		if(element != null) {
+			switch(action) {
+			case Click:
+				element.click();
+				bResult = true;
+				break;
+			case SetText:
+				element.sendKeys(strParameter);
+				bResult = true;
+				break;
+			default:
+				element.click();
+				bResult = true;
+				break;
+			}
+		}
+		return bResult;
+	}
+	private ObjectProperties _getObjectProperties(String strObjectName) {
+		ObjectProperties objectProperties = null;
+		String[] strProperties;
+		
+		mapObject = new DictionaryMapObject();
+		strProperties = mapObject.GetProperties(strObjectName);
+		if(strProperties==null) {
+			reports.SaveStep("El objeto no se encontró en el mapeo de objetos: ".concat(strObjectName), LogStatus.ERROR);
+			return null;
+		}else if(strProperties[0].isEmpty()) {
+			reports.SaveStep("El objeto tiene el identificador vacío: ".concat(strObjectName), LogStatus.ERROR);
+			return null;
+		}else if(strProperties[1].isEmpty()) {
+			reports.SaveStep("El objeto tiene la propiedad vacía: ".concat(strObjectName), LogStatus.ERROR);
+			return null;
+		}else {
+			switch(strProperties[0].toLowerCase().trim()) {
+			case "id":
+				objectProperties = new ObjectProperties(Identifier.id, strProperties[1]);
+				break;
+			case "name":
+				objectProperties = new ObjectProperties(Identifier.name, strProperties[1]);
+				break;
+			case "xpath":
+				objectProperties = new ObjectProperties(Identifier.xpath, strProperties[1]);
+				break;
+			default:
+				objectProperties = new ObjectProperties(Identifier.className, strProperties[1]);
+				break;
+			}
+		}
+		return objectProperties;
+	}
+	/**
+	 * 
+	 */
+	public void DriverQuit() {
+		driver.quit();
+	}
+}
