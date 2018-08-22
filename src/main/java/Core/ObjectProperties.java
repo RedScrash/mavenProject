@@ -1,6 +1,6 @@
-package mavenProject;
+package Core;
 
-import mavenProject.EnumClass.Identifier;
+import tools.EnumClass.Identifier;
 
 public class ObjectProperties{
 	private Identifier identifier;

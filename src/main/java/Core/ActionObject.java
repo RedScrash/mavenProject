@@ -1,7 +1,6 @@
-package mavenProject;
+package Core;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.edge.EdgeDriver;
@@ -14,11 +13,13 @@ import com.relevantcodes.extentreports.LogStatus;
 
 import interfacePackage.IMapObject;
 import io.github.bonigarcia.wdm.WebDriverManager;
-import mavenProject.EnumClass.*;
+import locators.DictionaryMapObject;
+import tools.DriverBrowser;
+import tools.EnumClass.*;
+import tools.Reports;
 
 public class ActionObject {
 	IMapObject mapObject;
-	static WebDriver driver;
 	public Reports reports;
 	private WebDriverWait wait = null;
 	
@@ -35,30 +36,30 @@ public class ActionObject {
 			//System.setProperty("webdriver.ie.driver", strDriverPath);
 			//driver = new InternetExplorerDriver();
 			WebDriverManager.edgedriver().setup();
-			driver = new EdgeDriver();
+			DriverBrowser.setDriver(new EdgeDriver());
 			break;
 		case firefox:
 			WebDriverManager.firefoxdriver().setup();
-			driver = new FirefoxDriver();
+			DriverBrowser.setDriver(new FirefoxDriver());
 			break;
 		case chrome:
 			WebDriverManager.chromedriver().setup();
-			driver = new ChromeDriver();
+			DriverBrowser.setDriver(new ChromeDriver());
 			break;
 		default:
 			WebDriverManager.iedriver().setup();
-			driver = new InternetExplorerDriver();
+			DriverBrowser.setDriver(new InternetExplorerDriver());
 			break;
 		}
-		wait = new WebDriverWait(driver, 30);
+		wait = new WebDriverWait(DriverBrowser.Driver(), 30);
 	}
 	/**
 	 * 
 	 * @param strURL
 	 */
 	public void GotoURL(String strURL) {
-		driver.get(strURL);
-		driver.manage().window().maximize();
+		DriverBrowser.Driver().get(strURL);
+		DriverBrowser.Driver().manage().window().maximize();
 	}
 	/**
 	 * 
@@ -71,16 +72,16 @@ public class ActionObject {
 		try {
 			switch(identy) {
 			case id:
-				element = driver.findElement(By.id(strProperty));
+				element = DriverBrowser.Driver().findElement(By.id(strProperty));
 				break;
 			case xpath:
-				element = driver.findElement(By.xpath(strProperty));
+				element = DriverBrowser.Driver().findElement(By.xpath(strProperty));
 				break;
 			case name:
-				element = driver.findElement(By.name(strProperty));
+				element = DriverBrowser.Driver().findElement(By.name(strProperty));
 				break;
 			default:
-				element = driver.findElement(By.className(strProperty));
+				element = DriverBrowser.Driver().findElement(By.className(strProperty));
 				break;
 			}
 		}catch(Exception e) {
@@ -151,8 +152,8 @@ public class ActionObject {
 				break;
 			}
 		}catch(Exception e) {
-			System.out.println("Elemento no encontrado: ".concat(objectProperties.getProperty()));
-			reports.SaveStep("Elemento no encontrado: ".concat(objectProperties.getProperty()), LogStatus.FATAL);
+			System.out.println("Elemento no encontrado: ".concat(strObjectName));
+			reports.SaveStep("Elemento no encontrado: ".concat(strObjectName), LogStatus.FATAL);
 		}
 		return bFind;		
 	}
@@ -254,6 +255,6 @@ public class ActionObject {
 	 * 
 	 */
 	public void DriverQuit() {
-		driver.quit();
+		DriverBrowser.Driver().quit();
 	}
 }

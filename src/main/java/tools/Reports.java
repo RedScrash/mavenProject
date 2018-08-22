@@ -1,4 +1,4 @@
-package mavenProject;
+package tools;
 
 import java.io.File;
 import java.text.DateFormat;
@@ -12,6 +12,7 @@ import org.openqa.selenium.TakesScreenshot;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
+
 
 public class Reports {
 	ExtentReports extentReports;
@@ -73,7 +74,7 @@ public class Reports {
 		String strFilePath =null;
 		String strFileName = strTestName.replaceAll(" ", "_").concat("_").concat(dateFormat.format(new Date()));
 		try {
-			File scrFile = ((TakesScreenshot) ActionObject.driver).getScreenshotAs(OutputType.FILE);
+			File scrFile = ((TakesScreenshot) DriverBrowser.Driver()).getScreenshotAs(OutputType.FILE);
 			strFilePath = "./image/".concat(strFileName).concat(".png");
 			FileUtils.copyFile(scrFile, new File(strPathHtml.concat(strFilePath)));
 			

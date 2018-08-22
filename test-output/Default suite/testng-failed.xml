@@ -5,7 +5,7 @@
     <classes>
       <class name="mavenProject.testng">
         <methods>
-          <include name="LoginSinUsuario"/>
+          <include name="LoginSinContrasena"/>
           <include name="setUpTest"/>
           <include name="endTest"/>
           <include name="endReport"/>

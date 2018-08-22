@@ -2,51 +2,39 @@
 <testng-results skipped="0" failed="1" ignored="0" total="3" passed="2">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="60602" started-at="2018-08-17T14:06:27Z" finished-at="2018-08-17T14:07:28Z">
+  <suite name="Default suite" duration-ms="69198" started-at="2018-08-17T15:06:23Z" finished-at="2018-08-17T15:07:32Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="60602" started-at="2018-08-17T14:06:27Z" finished-at="2018-08-17T14:07:28Z">
+    <test name="Default test" duration-ms="69198" started-at="2018-08-17T15:06:23Z" finished-at="2018-08-17T15:07:32Z">
       <class name="mavenProject.testng">
-        <test-method status="PASS" signature="setUpReport()[pri:0, instance:mavenProject.testng@239963d8]" name="setUpReport" is-config="true" duration-ms="180" started-at="2018-08-17T09:06:27Z" finished-at="2018-08-17T09:06:27Z">
+        <test-method status="PASS" signature="setUpReport()[pri:0, instance:mavenProject.testng@239963d8]" name="setUpReport" is-config="true" duration-ms="167" started-at="2018-08-17T10:06:23Z" finished-at="2018-08-17T10:06:23Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUpReport -->
-        <test-method status="PASS" signature="setUpTest()[pri:0, instance:mavenProject.testng@239963d8]" name="setUpTest" is-config="true" duration-ms="8963" started-at="2018-08-17T09:06:27Z" finished-at="2018-08-17T09:06:36Z">
+        <test-method status="PASS" signature="setUpTest()[pri:0, instance:mavenProject.testng@239963d8]" name="setUpTest" is-config="true" duration-ms="14441" started-at="2018-08-17T10:06:23Z" finished-at="2018-08-17T10:06:38Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUpTest -->
-        <test-method status="PASS" signature="LoginCorrecto()[pri:0, instance:mavenProject.testng@239963d8]" name="LoginCorrecto" duration-ms="1713" started-at="2018-08-17T09:06:36Z" finished-at="2018-08-17T09:06:38Z">
+        <test-method status="PASS" signature="LoginCorrecto()[pri:0, instance:mavenProject.testng@239963d8]" name="LoginCorrecto" duration-ms="2210" started-at="2018-08-17T10:06:38Z" finished-at="2018-08-17T10:06:40Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- LoginCorrecto -->
-        <test-method status="PASS" signature="endTest()[pri:0, instance:mavenProject.testng@239963d8]" name="endTest" is-config="true" duration-ms="1267" started-at="2018-08-17T09:06:38Z" finished-at="2018-08-17T09:06:39Z">
+        <test-method status="PASS" signature="endTest()[pri:0, instance:mavenProject.testng@239963d8]" name="endTest" is-config="true" duration-ms="995" started-at="2018-08-17T10:06:40Z" finished-at="2018-08-17T10:06:41Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- endTest -->
-        <test-method status="PASS" signature="setUpTest()[pri:0, instance:mavenProject.testng@239963d8]" name="setUpTest" is-config="true" duration-ms="7958" started-at="2018-08-17T09:06:39Z" finished-at="2018-08-17T09:06:47Z">
+        <test-method status="PASS" signature="setUpTest()[pri:0, instance:mavenProject.testng@239963d8]" name="setUpTest" is-config="true" duration-ms="8818" started-at="2018-08-17T10:06:41Z" finished-at="2018-08-17T10:06:50Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- setUpTest -->
-        <test-method status="PASS" signature="LoginSinContrasena()[pri:0, instance:mavenProject.testng@239963d8]" name="LoginSinContrasena" duration-ms="292" started-at="2018-08-17T09:06:47Z" finished-at="2018-08-17T09:06:48Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- LoginSinContrasena -->
-        <test-method status="PASS" signature="endTest()[pri:0, instance:mavenProject.testng@239963d8]" name="endTest" is-config="true" duration-ms="1102" started-at="2018-08-17T09:06:48Z" finished-at="2018-08-17T09:06:49Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- endTest -->
-        <test-method status="PASS" signature="setUpTest()[pri:0, instance:mavenProject.testng@239963d8]" name="setUpTest" is-config="true" duration-ms="7273" started-at="2018-08-17T09:06:49Z" finished-at="2018-08-17T09:06:56Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- setUpTest -->
-        <test-method status="FAIL" signature="LoginSinUsuario()[pri:0, instance:mavenProject.testng@239963d8]" name="LoginSinUsuario" duration-ms="30552" started-at="2018-08-17T09:06:56Z" finished-at="2018-08-17T09:07:27Z">
+        <test-method status="FAIL" signature="LoginSinContrasena()[pri:0, instance:mavenProject.testng@239963d8]" name="LoginSinContrasena" duration-ms="31118" started-at="2018-08-17T10:06:50Z" finished-at="2018-08-17T10:07:21Z">
           <exception class="java.lang.AssertionError">
             <full-stacktrace>
               <![CDATA[java.lang.AssertionError
 	at org.junit.Assert.fail(Assert.java:86)
 	at org.junit.Assert.assertTrue(Assert.java:41)
 	at org.junit.Assert.assertTrue(Assert.java:52)
-	at mavenProject.testng.LoginSinUsuario(testng.java:74)
+	at mavenProject.testng.LoginSinContrasena(testng.java:59)
 	at sun.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
 	at sun.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62)
 	at sun.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
@@ -77,12 +65,24 @@
           </exception> <!-- java.lang.AssertionError -->
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- LoginSinUsuario -->
-        <test-method status="PASS" signature="endTest()[pri:0, instance:mavenProject.testng@239963d8]" name="endTest" is-config="true" duration-ms="1083" started-at="2018-08-17T09:07:27Z" finished-at="2018-08-17T09:07:28Z">
+        </test-method> <!-- LoginSinContrasena -->
+        <test-method status="PASS" signature="endTest()[pri:0, instance:mavenProject.testng@239963d8]" name="endTest" is-config="true" duration-ms="789" started-at="2018-08-17T10:07:21Z" finished-at="2018-08-17T10:07:21Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- endTest -->
-        <test-method status="PASS" signature="endReport()[pri:0, instance:mavenProject.testng@239963d8]" name="endReport" is-config="true" duration-ms="197" started-at="2018-08-17T09:07:28Z" finished-at="2018-08-17T09:07:28Z">
+        <test-method status="PASS" signature="setUpTest()[pri:0, instance:mavenProject.testng@239963d8]" name="setUpTest" is-config="true" duration-ms="8677" started-at="2018-08-17T10:07:21Z" finished-at="2018-08-17T10:07:30Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- setUpTest -->
+        <test-method status="PASS" signature="LoginSinUsuario()[pri:0, instance:mavenProject.testng@239963d8]" name="LoginSinUsuario" duration-ms="831" started-at="2018-08-17T10:07:30Z" finished-at="2018-08-17T10:07:31Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- LoginSinUsuario -->
+        <test-method status="PASS" signature="endTest()[pri:0, instance:mavenProject.testng@239963d8]" name="endTest" is-config="true" duration-ms="934" started-at="2018-08-17T10:07:31Z" finished-at="2018-08-17T10:07:32Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- endTest -->
+        <test-method status="PASS" signature="endReport()[pri:0, instance:mavenProject.testng@239963d8]" name="endReport" is-config="true" duration-ms="200" started-at="2018-08-17T10:07:32Z" finished-at="2018-08-17T10:07:32Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- endReport -->

@@ -1,10 +1,13 @@
-package mavenProject;
+package unitTest;
 import static org.junit.Assert.*;
 import org.testng.annotations.Test;
 
 import com.relevantcodes.extentreports.LogStatus;
 
-import mavenProject.EnumClass.*;
+import Core.*;
+import tools.EnumClass.*;
+import tools.Reports;
+
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.AfterMethod;
@@ -22,7 +25,7 @@ public class testng {
 	
 	@BeforeMethod
 	public void setUpTest() {
-		actionObject.StartDriver(Browser.edge);
+		actionObject.StartDriver(Browser.chrome);
 		actionObject.GotoURL("http://localhost:4200/login");
 		actionObject.WaitElement("TXT_LOGIN_USER");
 	}
@@ -54,7 +57,7 @@ public class testng {
 		///
 		actionObject.ExecuteAction("BTN_LOGIN_LOGIN",null , ActionType.Click);
 		///
-		bResult = actionObject.WaitElement("LBL_LOGIN_NOT_USER");
+		bResult = actionObject.WaitElement("LBL_LOGIN_NOT_PASS");
 		report.SaveStep("Login Sin Contraseña", bResult?LogStatus.PASS:LogStatus.FAIL);
 		assertTrue(bResult);
 	}
@@ -63,13 +66,13 @@ public class testng {
 		boolean bResult;
 		report.StartTest("Login Sin Usuario");
 		///
-		actionObject.ExecuteAction("TXT_LOGIN_PASS","user@123456" , ActionType.SetText);
+		actionObject.ExecuteAction("TXT_LOGIN_PASS","user123456" , ActionType.SetText);
 		///
 		report.SaveStep("Página de inicio", LogStatus.PASS);
 		///
 		actionObject.ExecuteAction("BTN_LOGIN_LOGIN",null , ActionType.Click);
 		///
-		bResult = actionObject.WaitElement("LBL_LOGIN_NOT_PASS");
+		bResult = actionObject.WaitElement("LBL_LOGIN_NOT_USER");
 		report.SaveStep("Login Sin Usuario", bResult?LogStatus.PASS:LogStatus.FAIL);
 		assertTrue(bResult);
 	}

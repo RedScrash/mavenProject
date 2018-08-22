@@ -1,4 +1,4 @@
-package mavenProject;
+package Core;
 
 /**
  * Hello world!

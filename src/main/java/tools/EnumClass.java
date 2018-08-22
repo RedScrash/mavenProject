@@ -1,4 +1,4 @@
-package mavenProject;
+package tools;
 
 public class EnumClass {
 	
