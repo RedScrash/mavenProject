@@ -60,8 +60,14 @@
 	    <artifactId>cucumber-java</artifactId>
 	    <version>1.2.5</version>
 	</dependency>
+	<!-- https://mvnrepository.com/artifact/info.cukes/cucumber-junit -->
+	<dependency>
+	    <groupId>info.cukes</groupId>
+	    <artifactId>cucumber-junit</artifactId>
+	    <version>1.2.5</version>
+	    <scope>test</scope>
+	</dependency>
   </dependencies>
-
   <build>
     <pluginManagement><!-- lock down plugins versions to avoid using Maven defaults (may be moved to parent pom) -->
       <plugins>
