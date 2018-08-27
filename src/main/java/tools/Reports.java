@@ -13,16 +13,19 @@ import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 
+import Core.GlobalSettings;
+
 
 public class Reports {
 	ExtentReports extentReports;
 	ExtentTest extentTest;
-	String strPathHtml = "./src/test/resources/html";
-	String strPathImage = "./src/test/resources/image";
+	String strPathHtml = GlobalSettings.StrPathHtml();
+	String strPathImage = GlobalSettings.StrPathImages();
 	DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
 	String strTestName;
 	
 	public Reports() {
+		//Constructor vacío
 	}
 	/**
 	 * Permite iniciar el reporte de evidencias HTML
@@ -32,7 +35,7 @@ public class Reports {
 		String strFilePath;
 		String strHtmlName;
 		
-		strHtmlName = strScenario.toUpperCase().concat("_").concat(dateFormat.format(new Date()));
+		strHtmlName = strScenario.toUpperCase().replaceAll(" ", "_").concat("_").concat(dateFormat.format(new Date()));
 		strFilePath = strPathHtml.concat("/").concat(strHtmlName).concat(".html");
 		extentReports = new ExtentReports(strFilePath,false);
 	}
@@ -41,8 +44,15 @@ public class Reports {
 	 * @param strTestName
 	 */
 	public void StartTest(String strTestName) {
-		this.strTestName = strTestName;
-		extentTest = extentReports.startTest(strTestName);
+		if (strTestName==null || strTestName.isEmpty())
+            System.out.println("Error: el nombre del test está vacío!");
+        else if (extentReports == null)
+        	System.out.println("Error: no se ha iniciado el reporte, debe invocar primero la función StartReport!");
+        else
+        {
+			this.strTestName = strTestName;
+			extentTest = extentReports.startTest(strTestName);
+        }
 	}
 	/**
 	 * Permite guardar el pantallaso de un paso ejecutado, en el reporte HTML 
@@ -50,32 +60,34 @@ public class Reports {
 	 * @param bResult
 	 */
 	public void SaveStep(String strStepDetail, LogStatus logResult) {
-		String strFilePath = ScreenShot();
+		String strFilePath = _screenShot();
 		extentTest.log(logResult, strStepDetail+extentTest.addScreenCapture(strFilePath));
 	}
 	/**
 	 * Finaliza el caso de prueba en el reporte 
 	 */
 	public void EndTest() {
-		extentReports.endTest(extentTest);
+		if(extentTest!=null)
+			extentReports.endTest(extentTest);
 	}
 	/**
 	 * Finaliza el reporte HTML
 	 */
 	public void EndReport() {
-		extentReports.flush();
+		if(extentReports!= null)
+			extentReports.flush();
 	}
 	/**
 	 * Permirte tomar un screenshot de la pantalla, para almacenar cómo evidencia
 	 * @param strStepDetail
 	 * @return
 	 */
-	private String ScreenShot() {
+	private String _screenShot() {
 		String strFilePath =null;
-		String strFileName = strTestName.replaceAll(" ", "_").concat("_").concat(dateFormat.format(new Date()));
+		String strFileName = strTestName.replaceAll(" ", "_").concat("_").concat(dateFormat.format(new Date())).concat(".png");
 		try {
 			File scrFile = ((TakesScreenshot) DriverBrowser.Driver()).getScreenshotAs(OutputType.FILE);
-			strFilePath = "./image/".concat(strFileName).concat(".png");
+			strFilePath = strPathImage.concat("/").concat(strFileName.toUpperCase());
 			FileUtils.copyFile(scrFile, new File(strPathHtml.concat(strFilePath)));
 			
 		}catch(Exception e) {

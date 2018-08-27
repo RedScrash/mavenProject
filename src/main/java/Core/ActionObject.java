@@ -15,6 +15,7 @@ import interfacePackage.IMapObject;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import locators.DictionaryMapObject;
 import tools.DriverBrowser;
+import tools.ObjectProperties;
 import tools.EnumClass.*;
 import tools.Reports;
 
@@ -125,9 +126,7 @@ public class ActionObject {
 	}
 	public boolean WaitElement(String strObjectName) {
 		boolean bFind = false;
-		ObjectProperties objectProperties = null;
-		
-		objectProperties = _getObjectProperties(strObjectName);
+		ObjectProperties objectProperties = _getObjectProperties(strObjectName);
 		
 		if(objectProperties==null)
 			return bFind;
@@ -190,10 +189,8 @@ public class ActionObject {
 	}
 	public boolean ExecuteAction(String strObjectName,String strParameter,ActionType action) {
 		boolean bResult = false;
-		ObjectProperties objectProperties = null;
+		ObjectProperties objectProperties = _getObjectProperties(strObjectName);
 		WebElement element;
-		
-		objectProperties = _getObjectProperties(strObjectName);
 		
 		if(objectProperties==null)
 			return bResult;
@@ -224,16 +221,13 @@ public class ActionObject {
 		
 		mapObject = new DictionaryMapObject();
 		strProperties = mapObject.GetProperties(strObjectName);
-		if(strProperties==null) {
+		if(strProperties==null) 
 			reports.SaveStep("El objeto no se encontró en el mapeo de objetos: ".concat(strObjectName), LogStatus.ERROR);
-			return null;
-		}else if(strProperties[0].isEmpty()) {
+		else if(strProperties[0].isEmpty()) 
 			reports.SaveStep("El objeto tiene el identificador vacío: ".concat(strObjectName), LogStatus.ERROR);
-			return null;
-		}else if(strProperties[1].isEmpty()) {
+		else if(strProperties[1].isEmpty()) 
 			reports.SaveStep("El objeto tiene la propiedad vacía: ".concat(strObjectName), LogStatus.ERROR);
-			return null;
-		}else {
+		else {
 			switch(strProperties[0].toLowerCase().trim()) {
 			case "id":
 				objectProperties = new ObjectProperties(Identifier.id, strProperties[1]);
@@ -255,6 +249,7 @@ public class ActionObject {
 	 * 
 	 */
 	public void DriverQuit() {
-		DriverBrowser.Driver().quit();
+		if (DriverBrowser.Driver() != null)
+			DriverBrowser.Driver().quit();
 	}
 }

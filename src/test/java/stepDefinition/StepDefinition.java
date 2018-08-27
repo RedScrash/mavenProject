@@ -3,9 +3,8 @@ package stepDefinition;
 import cucumber.api.java.es.Cuando;
 
 import cucumber.api.java.es.Dado;
-import cucumber.api.java.es.Y;
+import cucumber.api.java.es.Entonces;
 import tools.Reports;
-import unitTest.runTest;
 import tools.EnumClass.ActionType;
 import tools.EnumClass.Browser;
 import cucumber.api.Scenario;
@@ -17,9 +16,10 @@ import org.testng.annotations.BeforeClass;
 import com.relevantcodes.extentreports.LogStatus;
 
 import Core.ActionObject;
+import Core.GlobalSettings;
 
 public class StepDefinition {
-	private String strURL = "http://localhost:4200/login"; 
+	private String strURL = GlobalSettings.StrURL(); 
 	ActionObject actionObject;
 	Reports report;
 	String strScenarioName;
@@ -35,6 +35,9 @@ public class StepDefinition {
 	}
 	public StepDefinition() {
 		actionObject = new ActionObject();
+		report = actionObject.reports;
+		report.StartReport("Pruebas_UXUI");
+		report.StartTest(strScenarioName);
 	}
 
 	@Dado("^Usuario ingresa config$")
@@ -61,7 +64,7 @@ public class StepDefinition {
 			actionObject.ExecuteAction(strObject,null , ActionType.Click);
 	}
 
-	@Y("^Usuario valida que el objeto \"([^\"]*)\" este presente en pantalla$")
+	@Entonces("^Usuario valida que el objeto \"([^\"]*)\" este presente en pantalla$")
 	public void usuarioValidaQueElObjetoEstePresenteEnPantalla(String strObject) throws Throwable {
 		boolean bResult = false;
 		if(strObject==null || strObject.equals("")) {
@@ -73,7 +76,7 @@ public class StepDefinition {
 		assertTrue(bResult);
 	}
 
-	@Y("^Usuario finaliza escenario$")
+	@Entonces("^Usuario finaliza escenario$")
 	public void usuarioFinalizaEscenario() throws Throwable {
 		report.EndTest();
 		actionObject.DriverQuit();
