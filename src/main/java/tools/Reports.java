@@ -21,7 +21,7 @@ public class Reports {
 	ExtentTest extentTest;
 	String strPathHtml = GlobalSettings.StrPathHtml();
 	String strPathImage = GlobalSettings.StrPathImages();
-	DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HHmmss");
+	DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HH");
 	String strTestName;
 	
 	public Reports() {
@@ -88,7 +88,7 @@ public class Reports {
 		try {
 			File scrFile = ((TakesScreenshot) DriverBrowser.Driver()).getScreenshotAs(OutputType.FILE);
 			strFilePath = strPathImage.concat("/").concat(strFileName.toUpperCase());
-			FileUtils.copyFile(scrFile, new File(strPathHtml.concat(strFilePath)));
+			FileUtils.copyFile(scrFile, new File(strFilePath));
 			
 		}catch(Exception e) {
 			System.out.println("Error en la función ScreenShot: ".concat(e.getMessage()));

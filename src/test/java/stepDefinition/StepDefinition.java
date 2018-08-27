@@ -37,7 +37,7 @@ public class StepDefinition {
 		actionObject = new ActionObject();
 		report = actionObject.reports;
 		report.StartReport("Pruebas_UXUI");
-		report.StartTest(strScenarioName);
+		report.StartTest("Login Correcto");
 	}
 
 	@Dado("^Usuario ingresa config$")
