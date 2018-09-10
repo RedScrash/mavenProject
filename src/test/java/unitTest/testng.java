@@ -20,7 +20,7 @@ public class testng {
 	@BeforeClass
 	public void setUpReport() {
 		report = actionObject.reports;
-		report.StartReport("Pruebas_UXUI");
+		//report.StartReport("Pruebas_UXUI");
 	}
 	
 	@BeforeMethod

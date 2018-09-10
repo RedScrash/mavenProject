@@ -4,6 +4,7 @@ import cucumber.api.java.es.Cuando;
 
 import cucumber.api.java.es.Dado;
 import cucumber.api.java.es.Entonces;
+import cucumber.api.java.Before;
 import tools.Reports;
 import tools.EnumClass.ActionType;
 import tools.EnumClass.Browser;
@@ -11,7 +12,7 @@ import cucumber.api.Scenario;
 
 import static org.junit.Assert.assertTrue;
 
-import org.testng.annotations.BeforeClass;
+import org.testng.Assert;
 
 import com.relevantcodes.extentreports.LogStatus;
 
@@ -24,20 +25,16 @@ public class StepDefinition {
 	Reports report;
 	String strScenarioName;
 	String strFuncionalidadName;
+	Scenario scenario;
 	
-	@BeforeClass
+	@Before
 	public void Before(Scenario scenario) {
-		strScenarioName = scenario.getName();
-		//strFuncionalidadName = scenario.getSourceTagNames();
-		report = actionObject.reports;
-		report.StartReport("Pruebas_UXUI");
-		report.StartTest(strScenarioName);
+		report.StartReport(scenario.getId().split(";")[0].replaceAll("-", " "));
+		report.StartTest(scenario.getName());
 	}
 	public StepDefinition() {
 		actionObject = new ActionObject();
 		report = actionObject.reports;
-		report.StartReport("Pruebas_UXUI");
-		report.StartTest("Login Correcto");
 	}
 
 	@Dado("^Usuario ingresa config$")
@@ -67,10 +64,9 @@ public class StepDefinition {
 	@Entonces("^Usuario valida que el objeto \"([^\"]*)\" este presente en pantalla$")
 	public void usuarioValidaQueElObjetoEstePresenteEnPantalla(String strObject) throws Throwable {
 		boolean bResult = false;
-		if(strObject==null || strObject.equals("")) {
+		if(strObject==null || strObject.equals("")) 
 			report.SaveStep("El objeto parece estar vacío o nulo! función: usuarioValidaQueElObjetoEstePresenteEnPantalla", LogStatus.FATAL);
-			bResult = false;
-		}else
+		else
 			bResult = actionObject.WaitElement(strObject);
 		report.SaveStep("Login Correcto", bResult?LogStatus.PASS:LogStatus.FAIL);
 		assertTrue(bResult);
@@ -81,6 +77,16 @@ public class StepDefinition {
 		report.EndTest();
 		actionObject.DriverQuit();
 		report.EndReport();
+	}
+	@Entonces("^Usuario valida el mensaje \"([^\"]*)\" en el objeto \"([^\"]*)\"$")
+	public void usuarioValidaElMensajeEnElObjeto(String strMessage, String strObject) throws Throwable {
+		boolean bResult = false;
+		if(strObject==null || strObject.equals(""))
+			report.SaveStep("El objeto parece estar vacío o nulo! función: usuarioValidaElMensajeEnElObjeto", LogStatus.FATAL);
+		else
+			bResult = actionObject.ExecuteAction(strObject, strMessage, ActionType.EqualText);
+		report.SaveStep("Login Correcto", bResult?LogStatus.PASS:LogStatus.FAIL);
+		Assert.assertTrue(bResult);
 	}
 
 }

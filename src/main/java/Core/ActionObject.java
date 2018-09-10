@@ -169,24 +169,16 @@ public class ActionObject {
 		WebElement element;
 		element = WaitElement(identy,strProperty) ? _findElement(identy,strProperty): null;
 		
-		if(element != null) {
-			switch(action) {
-			case Click:
-				element.click();
-				bResult = true;
-				break;
-			case SetText:
-				element.sendKeys(strParameter);
-				bResult = true;
-				break;
-			default:
-				element.click();
-				bResult = true;
-				break;
-			}
-		}
+		bResult = _executeAction(element,action,strParameter);
 		return bResult;
 	}
+	/**
+	 * 
+	 * @param strObjectName
+	 * @param strParameter
+	 * @param action
+	 * @return
+	 */
 	public boolean ExecuteAction(String strObjectName,String strParameter,ActionType action) {
 		boolean bResult = false;
 		ObjectProperties objectProperties = _getObjectProperties(strObjectName);
@@ -197,7 +189,19 @@ public class ActionObject {
 			
 		element = WaitElement(objectProperties.getIdentifier(),objectProperties.getProperty()) ? _findElement(objectProperties.getIdentifier(),objectProperties.getProperty()): null;
 		
-		if(element != null) {
+		bResult = _executeAction(element,action,strParameter);
+		return bResult;
+	}
+	/**
+	 * 
+	 * @param element
+	 * @param action
+	 * @param strParameter
+	 * @return
+	 */
+	private boolean _executeAction(WebElement element, ActionType action,String strParameter) {
+		boolean bResult = false;
+		if(element!=null) {
 			switch(action) {
 			case Click:
 				element.click();
@@ -207,14 +211,69 @@ public class ActionObject {
 				element.sendKeys(strParameter);
 				bResult = true;
 				break;
+			case EqualText:
+				bResult = _validateText(element,strParameter,true);
+				break;
+			case ContainText:
+				bResult = _validateText(element,strParameter,false);
+				break;
 			default:
 				element.click();
-				bResult = true;
+				bResult =  true;
 				break;
 			}
 		}
 		return bResult;
 	}
+	/**
+	 * 
+	 * @param element
+	 * @param strMessage
+	 * @param bEquals
+	 * @return
+	 */
+	private boolean _validateText(WebElement element,String strMessage,boolean bEquals) {
+		String strProperty;
+		if(!_getProperty(element,"text").isEmpty())
+			strProperty = _getProperty(element,"text");
+		else if(!_getProperty(element,"value").isEmpty())
+			strProperty = _getProperty(element,"value");
+		else
+			strProperty = "";
+		
+		if(bEquals)
+			return strMessage.trim().toLowerCase().equals(strProperty.trim().toLowerCase());
+		else
+			return strProperty.contains(strMessage);
+		
+	}
+	/**
+	 * 
+	 * @param element
+	 * @param strProperty
+	 * @return
+	 */
+	private String _getProperty(WebElement element,String strProperty) {
+		if(strProperty.isEmpty() || element==null)
+			return null;
+		switch(strProperty.toLowerCase().trim()) {
+		case "text":
+			return element.getText();
+		case "value":
+			return element.getAttribute("value");
+		case "tagname":
+			return element.getTagName();
+		case "selected":
+			return Boolean.toString(element.isSelected());
+		default:
+			return element.getAttribute(strProperty.toLowerCase().trim());
+		}
+	}
+	/**
+	 * 
+	 * @param strObjectName
+	 * @return
+	 */
 	private ObjectProperties _getObjectProperties(String strObjectName) {
 		ObjectProperties objectProperties = null;
 		String[] strProperties;

@@ -7,7 +7,9 @@ public class EnumClass {
 		SetText,
 		Select,
 		Check,
-		DoubleClick
+		DoubleClick,
+		EqualText,
+        ContainText
 	}
 	public enum Identifier{
 		id,

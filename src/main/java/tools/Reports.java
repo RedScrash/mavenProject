@@ -1,11 +1,9 @@
 package tools;
 
-import java.io.File;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 
@@ -22,6 +20,7 @@ public class Reports {
 	String strPathHtml = GlobalSettings.StrPathHtml();
 	String strPathImage = GlobalSettings.StrPathImages();
 	DateFormat dateFormat = new SimpleDateFormat("yyyyMMdd_HH");
+	DateFormat dateFormat1 = new SimpleDateFormat("yyyyMMddHHmmss");
 	String strTestName;
 	
 	public Reports() {
@@ -61,7 +60,7 @@ public class Reports {
 	 */
 	public void SaveStep(String strStepDetail, LogStatus logResult) {
 		String strFilePath = _screenShot();
-		extentTest.log(logResult, strStepDetail+extentTest.addScreenCapture(strFilePath));
+		extentTest.log(logResult, strStepDetail+extentTest.addBase64ScreenShot(strFilePath));
 	}
 	/**
 	 * Finaliza el caso de prueba en el reporte 
@@ -83,16 +82,8 @@ public class Reports {
 	 * @return
 	 */
 	private String _screenShot() {
-		String strFilePath =null;
-		String strFileName = strTestName.replaceAll(" ", "_").concat("_").concat(dateFormat.format(new Date())).concat(".png");
-		try {
-			File scrFile = ((TakesScreenshot) DriverBrowser.Driver()).getScreenshotAs(OutputType.FILE);
-			strFilePath = strPathImage.concat("/").concat(strFileName.toUpperCase());
-			FileUtils.copyFile(scrFile, new File(strFilePath));
-			
-		}catch(Exception e) {
-			System.out.println("Error en la función ScreenShot: ".concat(e.getMessage()));
-		}
-		return strFilePath;
+		TakesScreenshot newScreen = (TakesScreenshot) DriverBrowser.Driver();
+	    String scnShot = newScreen.getScreenshotAs(OutputType.BASE64);
+	    return "data:image/jpg;base64, " + scnShot ;
 	}
 }
